@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ApiFashion from "./ApiFashion";
+
+export const URLS = {
+  home: "/",
+  nam: "/nam",
+  nu: "/nu",
+  be_trai: "/be_trai",
+  be_gai: "/be_gai",
+};
 
 const HeaderLogo = () => {
   // Search
   const [search, setSearch] = useState(""); // lưu giá trị tìm kiếm
   const navigate = useNavigate(); // hook điều hướng
+  // gọi api
+  const [showApi, setShowApi] = useState(false);
 
   // Hàm xử lý tìm kiếm
   const handleSearch = () => {
     const query = search.toLowerCase().trim(); // chuẩn hóa từ khóa tìm kiếm
-    if (query === "nam") {
-      navigate("/nam");
-    } else if (query === "nu" || query === "nữ") {
-      navigate("/nu");
-    } else if (query === "betrai" || query === "bétrai") {
-      navigate("/betrai");
+    if (query === URLS.nam) {
+      navigate(URLS.nam);
+    } else if (query === URLS.nu) {
+      navigate(URLS.nu);
+    } else if (query === URLS.be_trai) {
+      navigate(URLS.be_trai);
     } else {
       navigate("/not-found"); // nếu không tìm thấy thì điều hướng đến trang not-found
     }
@@ -23,6 +34,7 @@ const HeaderLogo = () => {
   // khi click vào ảnh sẽ điều hướng về trang chủ
   const handleImageClick = () => {
     navigate("/"); // Điều hướng về trang chủ
+    setShowApi(true);
   };
 
   return (
@@ -39,8 +51,26 @@ const HeaderLogo = () => {
             ĐỔI HÀNG MIỄN PHÍ - TẠI TẤT CẢ CỬA HÀNG TRONG 30 NGÀY
           </h1>
 
-          {/* click vào ảnh logo */}
           <div className="navigation">
+            {/* SizeBar */}
+
+            <div className="sizeBar_menu">
+              <div className="sizeBar">
+                <i className="fas fa-bars"></i>
+              </div>
+              <div className="sizeBar_list">
+                <h3>CANIFA</h3>
+
+                <ul className="sizeBar_item ">
+                  <li>Hàng mới về </li>
+                  <li>Thời trang nam</li>
+                  <li>Thời trang nữ </li>
+                  <li>Thời trang trẻ em </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* click vào ảnh logo */}
             <img
               onClick={handleImageClick}
               className="navLogo"
@@ -48,12 +78,15 @@ const HeaderLogo = () => {
               alt=""
             />
             <ul>
-              <li onClick={() => navigate("nam")}>Nam</li>
-              <li onClick={() => navigate("nu")}>Nữ</li>
-              <li onClick={() => navigate("be gai")}>Bé Gái</li>
-              <li onClick={() => navigate("be trai")}>Bé Trai</li>
+              <li onClick={() => navigate(URLS.nam)}>Nam</li>
+              <li onClick={() => navigate(URLS.nu)}>Nữ</li>
+              <li onClick={() => navigate(URLS.be_gai)}>Bé Gái</li>
+              <li onClick={() => navigate(URLS.be_trai)}>Bé Trai</li>
               <li onClick={() => handleImageClick}>Canifa</li>
             </ul>
+
+            {/* api  */}
+            {showApi && <ApiFashion />}
 
             {/* Search */}
             <div className="nav_search">
